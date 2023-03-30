@@ -40,7 +40,8 @@ def generate_population(countries, start_year, num_years):
                 death_rate = random.uniform(0.5, 2.0)
 
                 # розрахувати приріст населення за рік
-                population_increase = int(population * (birth_rate - death_rate) / 100)
+                population_increase = int(population * 
+                                          (birth_rate - death_rate) / 100)
 
                 # оновити населення країни
                 population += population_increase
@@ -55,7 +56,8 @@ def read_file(filename, country_data):
             # розділити рядок на назву країни, рік та населення
             country, year, population = line.strip().split(",")
 
-            # перетворити рік та населення зі строкового типу на цілочисельний тип
+            # перетворити рік та населення зі строкового типу 
+            # на цілочисельний тип
             year = int(year)
             population = int(population)
 
@@ -80,7 +82,8 @@ def print_change_population():
         population_changes = []
         for i in range(1, len(years)):
             change = (
-                country_data[country][years[i]] - country_data[country][years[i - 1]]
+                country_data[country][years[i]] 
+                - country_data[country][years[i - 1]]
             )
             population_changes.append(change)
         print(f"{country}: {population_changes}")
