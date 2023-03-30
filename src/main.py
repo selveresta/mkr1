@@ -15,24 +15,24 @@ countries = {
 }
 
 # рік, з якого починаються дані
-start_year = 2000
+startYear = 2000
 
 # кількість років, про які є дані
-num_years = 20
+numYears = 20
 
-filename = "population.txt"
+fileName = "population.txt"
 
 # створити словник для зберігання даних про країни та їх населення
-cd = {}
+country_data = {}
 
 
-def generate_population(countries, start_year, num_years):
+def generate_population(countries, startYearP, numYearsP):
     # відкрити файл для запису даних
-    with open("population.txt", "w") as f:
+    with open("population.txt", "w") as fileP:
 
         # згенерувати дані про населення країн
         for country, population in countries.items():
-            for year in range(start_year, start_year + num_years):
+            for year in range(startYearP, startYearP + numYearsP):
                 # згенерувати показник народжуваності
                 birth_rate = random.uniform(1.0, 5.0)
 
@@ -46,11 +46,11 @@ def generate_population(countries, start_year, num_years):
                 population += _population
 
                 # записати дані про населення країни в файл
-                f.write(f"{country},{year},{population}\n")
+                fileP.write(f"{country},{year},{population}\n")
 
 
-def read_file(filename, cd):
-    with open(filename) as file:
+def read_file(fileNameP, country_data):
+    with open(fileNameP) as file:
         for line in file:
             # розділити рядок на назву країни, рік та населення
             country, year, population = line.strip().split(",")
@@ -59,26 +59,28 @@ def read_file(filename, cd):
             population = int(population)
 
             # додати дані до словника
-            if country in cd:
-                cd[country][year] = population
+            if country in country_data:
+                country_data[country][year] = population
             else:
-                cd[country] = {year: population}
+                country_data[country] = {year: population}
 
 
 # відкрити файл та прочитати дані про населення країн
-generate_population(countries, start_year, num_years)
+generate_population(countries, startYear, numYears)
 
-read_file(filename, cd)
+read_file(fileName, country_data)
 
-# print(cd)
+# print(country_data)
 
 
 def print_change_population():
-    for country in cd:
-        years = sorted(cd[country].keys())
+    for country in country_data:
+        years = sorted(country_data[country].keys())
         population_changes = []
         for i in range(1, len(years)):
-            change = cd[country][years[i]] - cd[country][years[i - 1]]
+            change = (
+                country_data[country][years[i]] - country_data[country][years[i - 1]]
+            )
             population_changes.append(change)
         print(f"{country}: {population_changes}")
 
