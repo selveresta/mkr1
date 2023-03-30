@@ -23,7 +23,7 @@ num_years = 20
 filename = "population.txt"
 
 # створити словник для зберігання даних про країни та їх населення
-country_data = {}
+cd = {}
 
 
 def generate_population(countries, start_year, num_years):
@@ -40,51 +40,45 @@ def generate_population(countries, start_year, num_years):
                 death_rate = random.uniform(0.5, 2.0)
 
                 # розрахувати приріст населення за рік
-                population_increase = int(population * 
-                                          (birth_rate - death_rate) / 100)
+                _population = int(population * (birth_rate - death_rate) / 100)
 
                 # оновити населення країни
-                population += population_increase
+                population += _population
 
                 # записати дані про населення країни в файл
                 f.write(f"{country},{year},{population}\n")
 
 
-def read_file(filename, country_data):
+def read_file(filename, cd):
     with open(filename) as file:
         for line in file:
             # розділити рядок на назву країни, рік та населення
             country, year, population = line.strip().split(",")
 
-            # перетворити рік та населення зі строкового типу 
-            # на цілочисельний тип
             year = int(year)
             population = int(population)
 
             # додати дані до словника
-            if country in country_data:
-                country_data[country][year] = population
+            if country in cd:
+                cd[country][year] = population
             else:
-                country_data[country] = {year: population}
+                cd[country] = {year: population}
 
 
 # відкрити файл та прочитати дані про населення країн
 generate_population(countries, start_year, num_years)
 
-read_file(filename, country_data)
+read_file(filename, cd)
 
-# print(country_data)
+# print(cd)
 
 
 def print_change_population():
-    for country in country_data:
-        years = sorted(country_data[country].keys())
+    for country in cd:
+        years = sorted(cd[country].keys())
         population_changes = []
         for i in range(1, len(years)):
-            change = (
-                country_data[country][years[i]] 
-                - country_data[country][years[i - 1]]
-            )
+            change = cd[country][years[i]] - cd[country][years[i - 1]]
             population_changes.append(change)
         print(f"{country}: {population_changes}")
 
